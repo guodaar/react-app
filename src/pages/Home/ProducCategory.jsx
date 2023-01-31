@@ -1,8 +1,14 @@
 import styled from "styled-components";
+import {useNavigate, generatePath } from 'react-router-dom';
+import {PRODUCTS_PATH} from '../../routes/const'
+import { mainFontColor } from "../../consts/colors";
 
 const ProductCategory = ({name, image}) => {
+  const navigate = useNavigate();
+  const productPath = generatePath(PRODUCTS_PATH, {category: name});
+
   return (
-    <ProductItem>
+    <ProductItem onClick={() => navigate(productPath)}>
       <div>
         <h2>{name}s</h2>
         <h3>13</h3>
@@ -38,11 +44,11 @@ const ProductItem = styled.div`
   h2 {
     margin: 0;
     font-size: 16px;
-    color:#f7d7f5;
+    color: ${mainFontColor};
   }
   h3 {
     margin: 0;
-    color:#f7d7f5;
+    color: ${mainFontColor};
   }
 
   img {
