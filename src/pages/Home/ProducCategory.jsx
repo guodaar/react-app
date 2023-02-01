@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import {useNavigate, generatePath } from 'react-router-dom';
 import {PRODUCTS_PATH} from '../../routes/const'
-import { mainFontColor } from "../../consts/colors";
+import { borderColor, mainFontColor } from "../../consts/colors";
 
 const ProductCategory = ({name, image}) => {
   const navigate = useNavigate();
@@ -25,6 +25,7 @@ const ProductItem = styled.div`
   text-align: center;
   text-transform: uppercase;
   background-color: #ffffff;
+  border: 1px solid ${borderColor};
   margin: 16px;
   padding: 10px;
   border-radius: 4px;
