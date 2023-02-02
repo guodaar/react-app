@@ -21,7 +21,7 @@ const ProductCategory = ({name, image}) => {
 export default ProductCategory;
 
 const ProductItem = styled.div`
-  width: 15%;
+  width: 20%;
   text-align: center;
   text-transform: uppercase;
   background-color: #ffffff;

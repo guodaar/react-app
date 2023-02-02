@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, generatePath } from "react-router-dom";
 import { ProductContext } from "../../contexts/ProductContext";
 import { useContext, useState } from "react";
 import styled from "styled-components";
@@ -7,11 +7,13 @@ import { borderColor, mainFontColor } from "../../consts/colors";
 import Select from 'react-select';
 import { getUniqueArrayItems } from "../../utils/array";
 import {screenSize} from '../../consts/media'
+import { PRODUCT_PATH } from "../../routes/const";
 
 const Products = () => {
   const {category} = useParams();
   const {products} = useContext(ProductContext);
   const [selectedColors, setSelectedColors] = useState([]);
+  const navigate = useNavigate();
 
   const categoryProducts = products.filter(product => product.type === category);
 
@@ -21,12 +23,16 @@ const Products = () => {
     value: color,
     label: capitalizeLetter(color),
   }));
-  console.log(selectedColors);
 
   const selectedColorsArray = selectedColors.map((color) => color.value);
   const filteredByColorProducts = categoryProducts.filter((product) => selectedColorsArray.includes(product.color.toLowerCase()));
 
   const filteredProducts = filteredByColorProducts.length ? filteredByColorProducts : categoryProducts;
+
+  const navigateToProduct = (category, productId) => {
+    const path = generatePath(PRODUCT_PATH, {category, productId});
+    navigate(path);
+  }
 
   return (
     <div>
@@ -37,7 +43,7 @@ const Products = () => {
           </FiltersContainer>
       <ProductsContainer>
       {filteredProducts.map((product) => (
-        <ProductItem key={product.id}>
+        <ProductItem key={product.id} onClick={() => navigateToProduct(category, product.id)}>
           <div>
           <img src={product.picUrl[0]} alt={product.name}></img>
           </div>
@@ -57,7 +63,7 @@ const Products = () => {
 export default Products
 
 const FiltersContainer = styled.div`
-padding: 40px 40px 20px 40px;
+margin-bottom: 20px;
 display: grid;
 grid-template-columns: repeat(4, 1fr);
 
@@ -71,13 +77,12 @@ grid-template-columns: repeat(4, 1fr);
 `;
 
 const Filter = styled.div`
-margin-right: 16px;
+margin-right: 18px;
 `;
 
 const ProductsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  padding: 0 40px 40px;
   grid-gap: 24px;
 
   @media (min-width: ${screenSize.tablet}) and (max-width: ${screenSize.laptop}) {
@@ -90,6 +95,7 @@ const ProductsContainer = styled.div`
 `;
 
 const ProductItem = styled.div`
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
