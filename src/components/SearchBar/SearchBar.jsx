@@ -1,12 +1,12 @@
 import styled from "styled-components"
-import { borderColor, mainBgColor} from "../../consts/colors";
+import { mainBgColor} from "../../consts/colors";
 import {AiOutlineSearch} from 'react-icons/ai';
 
 const SearchBar = () => {
   return (
   <InputWrapper>
-  <AiOutlineSearch/>
-  <Input placeholder="Search"/>
+    <AiOutlineSearch/>
+    <Input placeholder="Search"/>
   </InputWrapper>
   )
 };
