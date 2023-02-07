@@ -1,4 +1,4 @@
-body, input {
+body, input, button {
   margin: 0;
   background: #f1f0ef;
   color: #9E9C9A;
@@ -8,6 +8,10 @@ body, input {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6, p, ul, li {
+  margin: 0;
 }
 
 code {
