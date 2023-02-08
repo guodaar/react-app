@@ -3,11 +3,16 @@ body, input, button {
   background: #f1f0ef;
   color: #9E9C9A;
   height: 100%;
+  box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color:#9E9C9A;
 }
 
 h1, h2, h3, h4, h5, h6, p, ul, li {

@@ -5,19 +5,24 @@ const PrimaryButton = styled.button`
 border: none;
 border-radius: 4px;
 background-color: ${primaryButtonColor};
-padding: 17px 30px;
+padding: 10px 24px;
 color: #ffffff;
 font-size: 16px;
 cursor: pointer;
 transition: 0.1s ease-in-out;
-&:hover{
+&:hover {
   background-color: ${primaryDarkButtonColor};
+}
+
+&:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 `
 
-const Button = ({children}) => {
+const Button = ({children, ...rest}) => {
   return (
-    <PrimaryButton>{children}</PrimaryButton>
+    <PrimaryButton {...rest}>{children}</PrimaryButton>
   )
 }
 

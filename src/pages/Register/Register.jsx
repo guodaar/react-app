@@ -5,14 +5,17 @@ import { screenSize } from '../../consts/media';
 import Button from '../../components/Button/Button';
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
-import { REGISTER } from '../../routes/const';
+import { LOGIN } from '../../routes/const';
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').required('Required'),
-  password: Yup.string().required('Required')
+  firstName: Yup.string().required('Required'),
+  lastName: Yup.string().required('Required'),
+  email: Yup.string().email('Please enter a valid email').required('Required'),
+  password: Yup.string().required('Required'),
+  confirmPassword: Yup.string().required("Please retype your password").oneOf([Yup.ref("password")], "Your passwords do not match")
 })
 
-const Login = () => {
+const Register = () => {
 const handleSubmit = (values, {setSubmitting, resetForm}) => {
   setTimeout(() => {
     alert(JSON.stringify(values, null, 2));
@@ -24,34 +27,25 @@ const handleSubmit = (values, {setSubmitting, resetForm}) => {
   return (
     <div>
       <Formik initialValues={{
+        firstName: '',
+        lastName: '',
         email: '',
         password: '',
+        confirmPassword: '',
       }}
       validationSchema={validationSchema}
-      //Kitas variantas per pati Formik:
-      // validate={(values) => {
-      //   const errors = {};
-    
-      //   if (!values.email) {
-      //     errors.email = 'Required'
-      //   }
-      //   if (!values.password) {
-      //     errors.password = 'Required'
-      //   }
-
-      //   console.log(errors)
-
-      //   return errors
-      // }}
       onSubmit={handleSubmit}
       >
-        {({values, errors, isSubmitting}) => (
+        {({isSubmitting}) => (
         <StyledForm>
-          <Title>Login</Title>
+          <Title>Register your account</Title>
+          <FormikInput name='firstName' placeholder='First Name' />
+          <FormikInput name='lastName' placeholder='Last Name' />
           <FormikInput type='email' name='email' placeholder='Email' />
           <FormikInput type='password' name='password' placeholder='Password' />
-          <Button type='submit' disabled={isSubmitting}>Login</Button>
-          <StyledLink to={REGISTER}>Sign up</StyledLink>
+          <FormikInput type='password' name='confirmPassword' placeholder='Repeat Password' />
+          <Button type='submit' disabled={isSubmitting}>Submit</Button>
+          <StyledLink to={LOGIN}>Already have an account? Sign in here</StyledLink>
         </StyledForm>
         )}
       </Formik>
@@ -59,7 +53,7 @@ const handleSubmit = (values, {setSubmitting, resetForm}) => {
   )
 }
 
-export default Login
+export default Register
 
 const StyledForm = styled(Form)`
   max-width: ${screenSize.mobile};
