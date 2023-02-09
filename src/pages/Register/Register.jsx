@@ -4,34 +4,38 @@ import styled from 'styled-components';
 import { screenSize } from '../../consts/media';
 import Button from '../../components/Button/Button';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
-import { LOGIN } from '../../routes/const';
+import { Link, useNavigate } from 'react-router-dom';
+import { LOGIN_PATH } from '../../routes/const';
+import { createUser } from '../../api/user';
 
 const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required('Required'),
-  lastName: Yup.string().required('Required'),
+  first_name: Yup.string().required('Required'),
+  last_name: Yup.string().required('Required'),
   email: Yup.string().email('Please enter a valid email').required('Required'),
   password: Yup.string().required('Required'),
-  confirmPassword: Yup.string().required("Please retype your password").oneOf([Yup.ref("password")], "Your passwords do not match")
+  confirm_password: Yup.string().required("Please retype your password").oneOf([Yup.ref("password")], "Your passwords do not match")
 })
 
 const Register = () => {
-const handleSubmit = (values, {setSubmitting, resetForm}) => {
-  setTimeout(() => {
-    alert(JSON.stringify(values, null, 2));
-    setSubmitting(false);
-    resetForm();
-  }, 2000);
-}
+  const navigate = useNavigate();
+  const handleSubmit = (values) => {
+    const {confirm_password, ...newUser} = values;
+    createUser(newUser).then(() => {
+      navigate(LOGIN_PATH)
+    }).catch((error) => 
+    {
+      console.error('registration failed', error);
+    })
+  }
 
   return (
     <div>
       <Formik initialValues={{
-        firstName: '',
-        lastName: '',
+        first_name: '',
+        last_name: '',
         email: '',
         password: '',
-        confirmPassword: '',
+        confirm_password: '',
       }}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
@@ -39,13 +43,13 @@ const handleSubmit = (values, {setSubmitting, resetForm}) => {
         {({isSubmitting}) => (
         <StyledForm>
           <Title>Register your account</Title>
-          <FormikInput name='firstName' placeholder='First Name' />
-          <FormikInput name='lastName' placeholder='Last Name' />
+          <FormikInput name='first_name' placeholder='First Name' />
+          <FormikInput name='last_name' placeholder='Last Name' />
           <FormikInput type='email' name='email' placeholder='Email' />
           <FormikInput type='password' name='password' placeholder='Password' />
-          <FormikInput type='password' name='confirmPassword' placeholder='Repeat Password' />
+          <FormikInput type='password' name='confirm_password' placeholder='Repeat Password' />
           <Button type='submit' disabled={isSubmitting}>Submit</Button>
-          <StyledLink to={LOGIN}>Already have an account? Sign in here</StyledLink>
+          <StyledLink to={LOGIN_PATH}>Already have an account? Sign in here</StyledLink>
         </StyledForm>
         )}
       </Formik>

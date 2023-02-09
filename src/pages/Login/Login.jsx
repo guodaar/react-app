@@ -4,8 +4,11 @@ import styled from 'styled-components';
 import { screenSize } from '../../consts/media';
 import Button from '../../components/Button/Button';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
-import { REGISTER } from '../../routes/const';
+import { Link, useNavigate } from 'react-router-dom';
+import { CHECKOUT_PATH, REGISTER_PATH } from '../../routes/const';
+import { loginUser } from '../../api/user';
+import { UserContext } from '../../contexts/UserContext';
+import { useContext } from 'react';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -13,13 +16,19 @@ const validationSchema = Yup.object().shape({
 })
 
 const Login = () => {
-const handleSubmit = (values, {setSubmitting, resetForm}) => {
-  setTimeout(() => {
-    alert(JSON.stringify(values, null, 2));
-    setSubmitting(false);
-    resetForm();
-  }, 2000);
-}
+  const { setUser } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const handleSubmit = (values) => {
+    loginUser(values)
+    .then((response) => {
+      setUser(response);
+      navigate(CHECKOUT_PATH);
+  })
+    .catch((error) => {
+      console.log("Failed to login:", error);
+  });
+  }
 
   return (
     <div>
@@ -51,7 +60,7 @@ const handleSubmit = (values, {setSubmitting, resetForm}) => {
           <FormikInput type='email' name='email' placeholder='Email' />
           <FormikInput type='password' name='password' placeholder='Password' />
           <Button type='submit' disabled={isSubmitting}>Login</Button>
-          <StyledLink to={REGISTER}>Sign up</StyledLink>
+          <StyledLink to={REGISTER_PATH}>Sign up</StyledLink>
         </StyledForm>
         )}
       </Formik>
