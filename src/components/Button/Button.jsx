@@ -3,6 +3,7 @@ import { primaryButtonColor, primaryDarkButtonColor } from '../../consts/colors'
 
 const PrimaryButton = styled.button`
 border: none;
+text-decoration: none;
 border-radius: 4px;
 background-color: ${primaryButtonColor};
 padding: 10px 24px;

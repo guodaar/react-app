@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { euroSymbol } from '../../consts/currency';
 import { screenSize } from '../../consts/media';
 import Button from '../../components/Button/Button'
+import { Link } from 'react-router-dom';
+import { LOGIN_PATH } from '../../routes/const';
 
 
 const Cart = () => {
@@ -13,7 +15,7 @@ const Cart = () => {
   return (
     <Container>
       <Header>
-        <h2>MY CART</h2>
+        <h2>MY CART_PATH</h2>
         <p>Your cart items are reserved for 30 minutes.</p>
       </Header>
       <CartContainer>
@@ -25,13 +27,11 @@ const Cart = () => {
             <p>{product.name}</p>
             <CartItemColor>{product.color}</CartItemColor>
             </div>
-            
           </CartItem>
-          
         ))}
       </CartContainer>
       <ButtonContainer>
-        <Button>Check out</Button>
+        <Button as={Link} to={LOGIN_PATH}>Check out</Button>
       </ButtonContainer>
       
     </Container>
