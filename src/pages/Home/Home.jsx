@@ -1,28 +1,28 @@
-import { useContext } from "react";
 import styled from "styled-components";
-import { ProductContext } from "../../contexts/ProductContext";
+import { useProductData } from "../../hooks/products";
 import { getUniqueArrayItems } from "../../utils/array";
 import ProductCategory from "./ProducCategory";
 
 const Home = () => {
-  const { products, isLoading, error } = useContext(ProductContext);
+  const {data, isLoading, error} = useProductData();
+  const products = data || [];
+
+  console.log(data);
   const uniqCategories = getUniqueArrayItems(
     products.map((product) => product.type)
   );
-  console.log(uniqCategories);
 
   const categories = uniqCategories.map((category) => ({
     name: category,
     image: products.find((product) => product.type === category).picUrl || "",
   }));
-  console.log(categories);
 
   if (isLoading) {
     return "Kraunasi..."
   } 
 
   if (error) {
-    return error;
+    return 'Nepavyko gauti produktu';
   }
 
   return (

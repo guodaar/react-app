@@ -5,11 +5,16 @@ import { euroSymbol } from '../../consts/currency';
 import { screenSize } from '../../consts/media';
 import Button from '../../components/Button/Button'
 import { Link } from 'react-router-dom';
-import { LOGIN_PATH } from '../../routes/const';
+import { LOGIN_PATH, CHECKOUT_PATH } from '../../routes/const';
+import { UserContext } from '../../contexts/UserContext';
+import { useProductData } from '../../hooks/products';
 
 
 const Cart = () => {
-  const {products} = useContext(ProductContext);
+  const {data} = useProductData();
+  const products = data || [];
+  const {isLoggedIn} = useContext(UserContext);
+
   const cartProduct = products.slice(0, 2);
   console.log(cartProduct);
   return (
@@ -31,7 +36,7 @@ const Cart = () => {
         ))}
       </CartContainer>
       <ButtonContainer>
-        <Button as={Link} to={LOGIN_PATH}>Check out</Button>
+        <Button as={Link} to={isLoggedIn ? CHECKOUT_PATH : LOGIN_PATH}>Check out</Button>
       </ButtonContainer>
       
     </Container>

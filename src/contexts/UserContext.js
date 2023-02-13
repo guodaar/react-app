@@ -6,8 +6,10 @@ const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   console.log(user);
 
+  const isLoggedIn = !!user;
+
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, isLoggedIn, setUser }}>
       {children}
     </UserContext.Provider>
   );

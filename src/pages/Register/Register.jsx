@@ -6,7 +6,7 @@ import Button from '../../components/Button/Button';
 import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { LOGIN_PATH } from '../../routes/const';
-import { createUser } from '../../api/user';
+import { useCreateUser } from '../../hooks/user';
 
 const validationSchema = Yup.object().shape({
   first_name: Yup.string().required('Required'),
@@ -18,6 +18,9 @@ const validationSchema = Yup.object().shape({
 
 const Register = () => {
   const navigate = useNavigate();
+
+  const {mutateAsync: createUser} = useCreateUser();
+
   const handleSubmit = (values) => {
     const {confirm_password, ...newUser} = values;
     createUser(newUser).then(() => {

@@ -6,9 +6,9 @@ import Button from '../../components/Button/Button';
 import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { CHECKOUT_PATH, REGISTER_PATH } from '../../routes/const';
-import { loginUser } from '../../api/user';
 import { UserContext } from '../../contexts/UserContext';
 import { useContext } from 'react';
+import { useLoginUser } from '../../hooks/user';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -18,6 +18,8 @@ const validationSchema = Yup.object().shape({
 const Login = () => {
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
+
+  const {mutateAsync: loginUser} = useLoginUser();;
 
   const handleSubmit = (values) => {
     loginUser(values)
