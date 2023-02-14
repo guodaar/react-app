@@ -1,5 +1,4 @@
-import React, { useContext } from 'react'
-import { ProductContext } from '../../contexts/ProductContext';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { euroSymbol } from '../../consts/currency';
 import { screenSize } from '../../consts/media';
@@ -7,24 +6,21 @@ import Button from '../../components/Button/Button'
 import { Link } from 'react-router-dom';
 import { LOGIN_PATH, CHECKOUT_PATH } from '../../routes/const';
 import { UserContext } from '../../contexts/UserContext';
-import { useProductData } from '../../hooks/products';
+import { CartContext } from '../../contexts/CartContext';
 
 
 const Cart = () => {
-  const {data} = useProductData();
-  const products = data || [];
+  const {cartItems} = useContext(CartContext);
   const {isLoggedIn} = useContext(UserContext);
 
-  const cartProduct = products.slice(0, 2);
-  console.log(cartProduct);
   return (
     <Container>
       <Header>
-        <h2>MY CART_PATH</h2>
+        <h2>MY CART</h2>
         <p>Your cart items are reserved for 30 minutes.</p>
       </Header>
       <CartContainer>
-        {cartProduct.map((product) => (
+        {cartItems.map((product) => (
           <CartItem key={product.id}>
             <img src={product.picUrl[0]} alt={product.name}></img>
             <div>
@@ -32,13 +28,13 @@ const Cart = () => {
             <p>{product.name}</p>
             <CartItemColor>{product.color}</CartItemColor>
             </div>
+            <ItemQuantity>Quantity: {product.quantity}</ItemQuantity>
           </CartItem>
         ))}
       </CartContainer>
       <ButtonContainer>
         <Button as={Link} to={isLoggedIn ? CHECKOUT_PATH : LOGIN_PATH}>Check out</Button>
       </ButtonContainer>
-      
     </Container>
   )
 }
@@ -91,5 +87,12 @@ const CartItemColor = styled.p`
 
 const ButtonContainer = styled.div`
   display: flex;
+  justify-content: flex-end;
+`
+
+const ItemQuantity = styled.div`
+  flex: 1;
+  display: flex;
+  align-self: center;
   justify-content: flex-end;
 `

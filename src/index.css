@@ -1,4 +1,4 @@
-body, input, button {
+body {
   margin: 0;
   background: #f1f0ef;
   color: #9E9C9A;
@@ -9,6 +9,11 @@ body, input, button {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+input, button {
+margin: 0;
+box-sizing: border-box;
 }
 
 a {
