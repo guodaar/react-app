@@ -1,9 +1,10 @@
-import { createContext, useState } from "react";
+import { createContext } from "react";
+import { useLocalStorage } from "../hooks/localStorage";
 
 const CartContext = createContext();
 
 const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useLocalStorage("cartItem", []);
   console.log(cartItems);
 
   const handleAddToCart = (cartItem) => {
@@ -21,8 +22,12 @@ const CartProvider = ({ children }) => {
     }
   };
 
+  const resetCart = () => {
+    setCartItems([]);
+  };
+
   return (
-    <CartContext.Provider value={{ cartItems, handleAddToCart }}>
+    <CartContext.Provider value={{ cartItems, resetCart, handleAddToCart }}>
       {children}
     </CartContext.Provider>
   );

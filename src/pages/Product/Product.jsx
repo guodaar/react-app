@@ -31,8 +31,9 @@ const Product = () => {
   <InfoSide>
   <Title>{product.name}</Title>
   <Price>{euroSymbol}{product.price}</Price>
-  <Button onClick={() => handleAddToCart(product)}>Add to Cart</Button>
+  
   <Description>{product.description}</Description>
+  <FullSizeButton onClick={() => handleAddToCart(product)}>Add to Cart</FullSizeButton>
   </InfoSide>
   </Container>
    
@@ -60,20 +61,23 @@ const PhotoSide = styled.div`
 
 const InfoSide = styled.div`
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 `
 
 const Title = styled.p`
   font-size: 18px;
-  margin-bottom: 8px;
 `
 
 const Description = styled.p`
-  margin-top: 16px;
   font-size: 14px;
   font-weight: 300;
 `
 
 const Price = styled.p`
   font-size: 24px;
-  margin-bottom: 8px;
+`
+const FullSizeButton = styled(Button)`
+width: 100%;
 `
