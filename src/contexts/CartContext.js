@@ -11,15 +11,20 @@ const CartProvider = ({ children }) => {
     const hasEqualId = (cItem) => cItem.id === cartItem.id;
     const alreadyInCartItem = cartItems.find(hasEqualId);
     if (alreadyInCartItem) {
-      setCartItems((prevItems) =>
-        prevItems.map((item) =>
-          hasEqualId(item) ? { ...item, quantity: item.quantity + 1 } : item
-        )
-      );
+      handleUpdateQuantity(cartItem.id, "increase");
     } else {
       const item = { ...cartItem, quantity: 1 };
       setCartItems((prevItems) => [...prevItems, item]);
     }
+  };
+
+  const handleUpdateQuantity = (id, type) => {
+    const increaseValue = type === "increase" ? 1 : -1;
+    const updatedItem = (i) =>
+      i.id === id ? { ...i, quantity: i.quantity + increaseValue } : i;
+    setCartItems((prevItems) =>
+      prevItems.map(updatedItem).filter((i) => i.quantity)
+    );
   };
 
   const resetCart = () => {
@@ -27,7 +32,9 @@ const CartProvider = ({ children }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, resetCart, handleAddToCart }}>
+    <CartContext.Provider
+      value={{ cartItems, resetCart, handleAddToCart, handleUpdateQuantity }}
+    >
       {children}
     </CartContext.Provider>
   );
