@@ -65,7 +65,6 @@ export default Register
 const StyledForm = styled(Form)`
   max-width: ${screenSize.mobile};
   margin: 40px auto;
-  background-color: #ffffff;
   border-radius: 4px;
   display: flex;
   flex-direction: column;
