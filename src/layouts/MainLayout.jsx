@@ -13,6 +13,6 @@ const MainLayout = ({children}) => {
 export default MainLayout
 
 const ContentWrapper = styled.div`
-  background-color: #f1f0ef;
+  background-color: #f9f9f9;
   padding: 20px 40px;
 `
