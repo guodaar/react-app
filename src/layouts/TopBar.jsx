@@ -1,22 +1,42 @@
 import styled from "styled-components";
 import { borderColor } from "../consts/colors";
-import { Link } from "react-router-dom";
-import { CART_PATH, HOME_PATH } from "../routes/const";
-import { FaShoppingCart } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import { CART_PATH, HOME_PATH, LOGIN_PATH } from "../routes/const";
 import EnhancedSearchBar from "../components/SearchBar/EnhancedSearchBar";
+import { FiLogOut, FiLogIn, FiShoppingBag } from "react-icons/fi";
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
+import { toast } from "react-hot-toast";
+import CategoriesButton from "../components/CategoriesButton/CategoriesButton";
 
 const TopBar = () => {
+  const { isLoggedIn, handleLogOut } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const handleClickSign = () => {
+    if (isLoggedIn) {
+      handleLogOut();
+      navigate(HOME_PATH);
+      toast.success("Successfully logged out!");
+    } else {
+      navigate(LOGIN_PATH);
+    }
+  };
+
   return (
     <Container>
-      <NavItem>Categories</NavItem>
+      <CategoriesButton />
       <Logo as={Link} to={HOME_PATH}>
         KOPIKTA
       </Logo>
       <ItemContainer>
         <EnhancedSearchBar />
         <Link to={CART_PATH}>
-          <FaShoppingCart />
+          <FiShoppingBag />
         </Link>
+        <LogOut onClick={handleClickSign}>
+          {isLoggedIn ? <FiLogOut /> : <FiLogIn />}
+        </LogOut>
       </ItemContainer>
     </Container>
   );
@@ -47,13 +67,14 @@ const ItemContainer = styled.div`
   }
 `;
 
-const NavItem = styled.div`
-  font-size: 18px;
-`;
-
 const Logo = styled.div`
   font-weight: 700;
   font-size: 28px;
   text-decoration: none;
   color: inherit;
+  margin-left: 230px;
+`;
+
+const LogOut = styled.div`
+  cursor: pointer;
 `;

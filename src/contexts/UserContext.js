@@ -9,8 +9,12 @@ const UserProvider = ({ children }) => {
 
   const isLoggedIn = !!user;
 
+  const handleLogOut = () => {
+    setUser(null);
+  };
+
   return (
-    <UserContext.Provider value={{ user, isLoggedIn, setUser }}>
+    <UserContext.Provider value={{ user, isLoggedIn, setUser, handleLogOut }}>
       {children}
     </UserContext.Provider>
   );
